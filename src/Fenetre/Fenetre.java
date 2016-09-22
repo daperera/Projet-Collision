@@ -125,7 +125,9 @@ public final class Fenetre extends JFrame {
 				windowPanel.repaint();
 				if(boules.testerContact(curseur)) {
 					echec = true;
-					boules.initialiserBoules();
+					if (difficulte != TypeDifficulte.PERSONNALISEE) {
+						boules.initialiserBoules();
+					}
 					pause();
 				}
 			}
@@ -193,6 +195,9 @@ public final class Fenetre extends JFrame {
 			pause();
 		}
 		
+	}
+	public int getRayonBoules() {
+		return rayonBoules;
 	}
 	public void quitterModePlacement() {
 		System.out.println("mode quitté");

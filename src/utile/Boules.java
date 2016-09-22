@@ -133,6 +133,13 @@ public class Boules {
 	public void setVitesseMin(float vitesseMin) {
 		this.vitesseMin = vitesseMin;
 	}
+	public void add(int x, int y) {
+		nbBoules++;
+		boules[nbBoules-1] = new Boule(x, y, 0, 0, rayon);
+	}
+	public void setVitesse(Vecteur v, int indice) {
+		boules[indice].setVitesse(v);
+	}
 	/*
 	static Bord[] testerCollisionAvecBord(Boule boule) {
 		Bord[] res = new Bord[2];

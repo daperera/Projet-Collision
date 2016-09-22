@@ -2,7 +2,6 @@ package Bouton;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -16,10 +15,7 @@ public class BoutonGenerique extends JButton implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	private final Fenetre fenetre;
 	private final TypeBouton type;
-	private String temps = "0:0:0";
-	private JLabel label1;
 	private JLabel label2;
-	private JLabel label3;
 
 	
 	public BoutonGenerique(Fenetre fenetre, TypeBouton type) {
@@ -42,13 +38,13 @@ public class BoutonGenerique extends JButton implements ActionListener{
 				c.anchor = GridBagConstraints.CENTER;
 				c.weighty = 1.0;
 				c.gridy = 0;
-				add(label1 = new JLabel("Perdu !"), c);
+				add(new JLabel("Perdu !"), c);
 				c.weighty = 1.0;
 				c.gridy = 1;
-				add(label2 = new JLabel("Score : " + temps), c);
+				add(label2 = new JLabel("Score : 0:0:0"), c);
 				c.weighty = 1.0;
 				c.gridy = 2;
-				add(label3 = new JLabel("Recommencer ?"), c);
+				add(new JLabel("Recommencer ?"), c);
 				break;
 			case REPRENDRE:
 				setText("Reprendre");
