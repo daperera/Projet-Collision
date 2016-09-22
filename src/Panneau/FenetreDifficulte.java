@@ -12,8 +12,8 @@ public class FenetreDifficulte extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	
-	private final int largeur = 275;
-	private final int hauteur = 200;
+	private final int largeur = 270;
+	private final int hauteur = 110;
 	
 
 	

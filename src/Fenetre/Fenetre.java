@@ -31,7 +31,7 @@ public final class Fenetre extends JFrame{
 	private int nbBoules = 6;
 	private float vitesseMax = 1;
 	private float vitesseMin = 3;
-
+	
 
 
 	
@@ -90,19 +90,21 @@ public final class Fenetre extends JFrame{
 				boules.setNbBoules(4);
 				boules.setVitesseMin((float) 1);
 				boules.setVitesseMax((float) 3);
-				System.out.println("facile");
 				break;
 			case NORMAL:
 				boules.setNbBoules(6);
 				boules.setVitesseMin(1);
 				boules.setVitesseMax(3);
-				System.out.println("facile");
 				break;
 			case DIFFICILE:
 				boules.setNbBoules(8);
 				boules.setVitesseMin(2);
 				boules.setVitesseMax(3);
-				System.out.println("facile");
+				break;
+			case PERSONNALISEE:
+				boules.setNbBoules(0);
+				break;
+			default:
 				break;
 		}
 		

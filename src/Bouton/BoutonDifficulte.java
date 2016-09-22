@@ -28,6 +28,11 @@ public class BoutonDifficulte extends JRadioButton implements ActionListener{
 			case DIFFICILE:
 				setText("difficile");
 				break;
+			case PERSONNALISEE:
+				setText("personnalisée");
+				break;
+			default:
+				break;
 		}
 		addActionListener(this);
 	}
