@@ -1,8 +1,6 @@
 package Fenetre;
 
-
 import javax.swing.JFrame;
-
 import utile.Boules;
 import utile.Point;
 import utile.Temps;
@@ -11,7 +9,7 @@ import Panneau.WindowPanel;
 import Type.TypeDifficulte;
 
 
-public final class Fenetre extends JFrame{
+public final class Fenetre extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private final Boules boules;
 	private final WindowPanel windowPanel;
@@ -22,6 +20,8 @@ public final class Fenetre extends JFrame{
 	private boolean premiereFois;
 	private final BarreDeMenu barreDeMenu;
 	private boolean menuActive = false;
+	private boolean pauseActive = false;
+	private boolean modePlacement = false;
 	private TypeDifficulte difficulte = TypeDifficulte.NORMAL;
 	public final int nbBoulesMax = 30;
 	public final int largeurEcran = 400;
@@ -53,6 +53,7 @@ public final class Fenetre extends JFrame{
 	    setContentPane(windowPanel);
 	    barreDeMenu = new BarreDeMenu(this);
 	    setJMenuBar(barreDeMenu);
+	    windowPanel.afficherFenetreCommencer();
 	    pack();
 	    animation();
 	}
@@ -101,13 +102,20 @@ public final class Fenetre extends JFrame{
 				boules.setVitesseMin(2);
 				boules.setVitesseMax(3);
 				break;
-			case PERSONNALISEE:
+			case PERSONNALISEE: // mode de placement des boules
 				boules.setNbBoules(0);
+				modePlacement = true;
 				break;
 			default:
 				break;
 		}
 		
+	}
+	public boolean isModePlacement() {
+		return modePlacement;
+	}
+	public void setModePlacement(boolean modePlacement) {
+		this.modePlacement = modePlacement;
 	}
 	public void animation() {
 		while(true) {
@@ -130,28 +138,32 @@ public final class Fenetre extends JFrame{
 		}
 	}
 	public void pause() {
-		if (!premiereFois && menuActive == false) {
+		if (!premiereFois && !pauseActive) {
+			System.out.println("pause active");
 			temps.pause();
 			continuer = false;
-			menuActive = true;
 			if (echec) {
 				windowPanel.afficherFenetreEchec();
+				echec = false;
 			}
 			else {
 				windowPanel.afficherFenetrePause();
 			}
+			pauseActive = true;
 		}
 	}
 	public void resume() {
+		if(!modePlacement) {
+			temps.resume();
+			continuer = true;
+		}
 		if (premiereFois) {
 			premiereFois = false;
 		}
-		menuActive = false;
-		continuer = true;
 		windowPanel.fermerFenetre();
-		temps.resume();
+		pauseActive = false;
 	}
-	public boolean isEchec() {
+	public boolean isEchec() { //methode inutilisee
 		return echec;
 	}
 	public void reinitialiser() {
@@ -166,6 +178,27 @@ public final class Fenetre extends JFrame{
 		windowPanel.fermerFenetreDifficulte();
 		boules.initialiserBoules();
 		menuActive = false;
-		pause();
+		echec = false;
+		pauseActive = false;
+		if (modePlacement) {
+			continuer = false;
+			System.out.println("mode placement");
+			temps.reinitialiser(true);
+			windowPanel.actualiserHorloge();
+			windowPanel.fermerFenetre();
+			windowPanel.focusPanneauAnimation();
+			pauseActive = true;
+		}
+		else {
+			pause();
+		}
+		
+	}
+	public void quitterModePlacement() {
+		System.out.println("mode quitté");
+		pauseActive = false;
+		modePlacement = false;
+		premiereFois = true;
+		windowPanel.afficherFenetreCommencer();
 	}
 }

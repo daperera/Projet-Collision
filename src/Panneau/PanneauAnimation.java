@@ -1,6 +1,8 @@
 package Panneau;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -12,7 +14,7 @@ import utile.Boules;
 import utile.Point;
 import Fenetre.Fenetre;
 
-public class PanneauAnimation extends JPanel implements MouseListener, MouseMotionListener{
+public class PanneauAnimation extends JPanel implements MouseListener, MouseMotionListener, KeyListener{
 	private static final long serialVersionUID = 1L;
 	private final Fenetre fenetre;
 	private final Boules boules;
@@ -22,8 +24,10 @@ public class PanneauAnimation extends JPanel implements MouseListener, MouseMoti
 	public PanneauAnimation(Fenetre fenetre) {
 		super();
 		this.fenetre = fenetre;
+		this.setFocusable(true);
 		addMouseListener(this);
 		addMouseMotionListener(this);
+		addKeyListener(this);
 		boules = fenetre.getBoules();
 		hauteur  = (int) fenetre.getSize().getHeight() - fenetre.getHauteurHorloge();
 		largeur = (int) fenetre.getSize().getWidth();
@@ -58,5 +62,21 @@ public class PanneauAnimation extends JPanel implements MouseListener, MouseMoti
 		g.setColor(new Color(234,234,255));
 		g.fillRect(0, 0, largeur, hauteur);
 		boules.paint(g);
+	}
+	public void keyPressed(KeyEvent e) {
+		switch(e.getKeyCode()) {
+		case KeyEvent.VK_ESCAPE:
+			System.out.println("echap pressée");
+			fenetre.quitterModePlacement();
+		default:
+			
+			break;
+		}
+	}
+	public void keyReleased(KeyEvent e) {
+		
+	}
+	public void keyTyped(KeyEvent e) {
+		
 	}
 }

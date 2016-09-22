@@ -38,7 +38,8 @@ public class Temps {
 	public void reinitialiser(boolean enPause) {
 		tempsDepart = System.currentTimeMillis();
 		tempsEnPause = 0;
-		this.enPause = false;
+		this.enPause = enPause;
+		tempsDernierArret = tempsDepart;
 	}
 	public String toString() {
 		long temps = get();

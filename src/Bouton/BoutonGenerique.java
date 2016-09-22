@@ -2,6 +2,7 @@ package Bouton;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -15,7 +16,10 @@ public class BoutonGenerique extends JButton implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	private final Fenetre fenetre;
 	private final TypeBouton type;
+	private String temps = "0:0:0";
+	private JLabel label1;
 	private JLabel label2;
+	private JLabel label3;
 
 	
 	public BoutonGenerique(Fenetre fenetre, TypeBouton type) {
@@ -32,21 +36,19 @@ public class BoutonGenerique extends JButton implements ActionListener{
 				setPreferredSize(new Dimension(105, 50));
 				break;
 			case RECOMMENCER:
-				setPreferredSize(new Dimension(130, 75));
+				setPreferredSize(new Dimension(150, 75));
 				setLayout(new GridBagLayout());
 				GridBagConstraints c = new GridBagConstraints();
 				c.anchor = GridBagConstraints.CENTER;
 				c.weighty = 1.0;
 				c.gridy = 0;
-				add(new JLabel("Perdu !"), c);
+				add(label1 = new JLabel("Perdu !"), c);
 				c.weighty = 1.0;
 				c.gridy = 1;
-				label2 = new JLabel("Score : " + fenetre.getTemps());
-				add(label2, c);
-				remove(label2);
+				add(label2 = new JLabel("Score : " + temps), c);
 				c.weighty = 1.0;
 				c.gridy = 2;
-				add(new JLabel("Recommencer ?"), c);
+				add(label3 = new JLabel("Recommencer ?"), c);
 				break;
 			case REPRENDRE:
 				setText("Reprendre");
@@ -72,24 +74,24 @@ public class BoutonGenerique extends JButton implements ActionListener{
 			break;
 		}
 	}
+	
 	public void actualiser() {
 		switch(type) {
-			case RECOMMENCER:
-				GridBagConstraints c = new GridBagConstraints();
-				c.anchor = GridBagConstraints.CENTER;
-				c.weighty = 1.0;
-				c.gridy = 1;
-				remove(label2);
-				label2 = new JLabel("Score : " + fenetre.getTemps());
-				add(label2, c);
-				
-				
-				
-				//setText("Score : " + fenetre.getTemps());
-				break;
-			default:
-				break;
-		
+		case RECOMMENCER:
+			GridBagConstraints c = new GridBagConstraints();
+			c.anchor = GridBagConstraints.CENTER;
+			c.weighty = 1.0;
+			c.gridy = 1;
+			remove(label2);
+			label2 = new JLabel("Score : " + fenetre.getTemps());
+			add(label2, c);
+			revalidate();
+			repaint();
+			break;
+		default:
+			break;
+	
 		}
 	}
+
 }
