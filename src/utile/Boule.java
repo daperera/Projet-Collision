@@ -16,7 +16,11 @@ public class Boule {
 		rayon = 0;
 
 	}
-
+	public Boule( Point position, Vecteur vitesse, float rayon) {
+		this.position = position;
+		this.vitesse = vitesse;
+		this.rayon = rayon;
+	}
 	public Boule(float px,float py,float vx,float vy, float r){
 		position = new Point(px, py);
 		vitesse = new Vecteur(vx, vy);
@@ -63,6 +67,10 @@ public class Boule {
 	public void paintComponent(Graphics g) {
 		g.setColor(Color.black);
 		g.fillOval((int) (position.getX() - rayon),(int) (position.getY() - rayon), (int) (2*rayon), (int) (2*rayon));
+	}
+
+	public Boule copy() {
+		return new Boule(position, vitesse, rayon);
 	}
 	
 		

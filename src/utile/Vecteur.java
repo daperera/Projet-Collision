@@ -23,11 +23,23 @@ public class Vecteur {
 	}
 	public void rotate(float angle) {
 		float theta;
-		if (x == 0) {
+		if(x>0 && y>=0) {
+			theta = (float) Math.atan(y/x);
+		}
+		else if (x>0 && y<0) {
+			theta = (float) Math.atan(y/x) + (float) (2*Math.PI);
+		}
+		else if (x<0 && y>=0) {
+			theta = (float) Math.atan(y/x) + (float) Math.PI;
+		}
+		else if (x<0 && y<0) {
+			theta = (float) Math.atan(y/x) + (float) Math.PI;
+		}
+		else if (x==0 && y>=0) {
 			theta = (float) (Math.PI/2);
 		}
 		else {
-			theta = (float) Math.atan(y/x);
+			theta = (float) -Math.PI/2;
 		}
 		theta += angle;
 		float n = norme();
@@ -73,6 +85,8 @@ public class Vecteur {
 		x /= n;
 		y /= n;
 	}
-
+	public float prduitScalaire(Vecteur v) {
+		return x*v.getX() + y*v.getY();
+	}
 	
 }

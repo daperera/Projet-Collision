@@ -48,12 +48,14 @@ public class Fleche {
 		coinHaut = extremite.addp(u);
 	}
 	public Vecteur getVecteur() {
-		return new Vecteur(origine,extremite);
+		return new Vecteur(origine, extremite);
 	}
 	public void paintComponent(Graphics g) {
-		Graphics2D g2 = (Graphics2D) g;
-		g2.draw(new Line2D.Float(origine.getX(), origine.getY(), extremite.getX(), extremite.getY()));
-		g2.draw(new Line2D.Float(extremite.getX(), extremite.getY(), coinBas.getX(), coinBas.getY()));
-		g2.draw(new Line2D.Float(extremite.getX(), extremite.getY(), coinHaut.getX(), coinHaut.getY()));
+		if (!origine.equalsTo(extremite)) {
+			Graphics2D g2 = (Graphics2D) g;
+			g2.draw(new Line2D.Float(origine.getX(), origine.getY(), extremite.getX(), extremite.getY()));
+			g2.draw(new Line2D.Float(extremite.getX(), extremite.getY(), coinBas.getX(), coinBas.getY()));
+			g2.draw(new Line2D.Float(extremite.getX(), extremite.getY(), coinHaut.getX(), coinHaut.getY()));
+		}
 	}
 }

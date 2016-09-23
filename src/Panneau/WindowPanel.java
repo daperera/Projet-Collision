@@ -17,7 +17,6 @@ public class WindowPanel extends JLayeredPane {
 	
 	
 	
-	
 	public WindowPanel(Fenetre fenetre) {
 		super();
 		setVisible(true);

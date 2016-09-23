@@ -19,7 +19,6 @@ public final class Fenetre extends JFrame {
 	private boolean continuer;
 	private boolean premiereFois;
 	private final BarreDeMenu barreDeMenu;
-	private boolean menuActive = false;
 	private boolean pauseActive = false;
 	private boolean modePlacement = false;
 	private TypeDifficulte difficulte = TypeDifficulte.NORMAL;
@@ -103,13 +102,11 @@ public final class Fenetre extends JFrame {
 				boules.setVitesseMax(3);
 				break;
 			case PERSONNALISEE: // mode de placement des boules
-				boules.setNbBoules(0);
 				modePlacement = true;
 				break;
 			default:
 				break;
 		}
-		
 	}
 	public boolean isModePlacement() {
 		return modePlacement;
@@ -141,7 +138,6 @@ public final class Fenetre extends JFrame {
 	}
 	public void pause() {
 		if (!premiereFois && !pauseActive) {
-			System.out.println("pause active");
 			temps.pause();
 			continuer = false;
 			if (echec) {
@@ -174,17 +170,15 @@ public final class Fenetre extends JFrame {
 	}
 	public void ouvrirFenetreDifficulte() {
 		windowPanel.afficherFenetreDifficulte();
-		menuActive = true;
 	}
 	public void fermerFenetreDifficulte() {
 		windowPanel.fermerFenetreDifficulte();
 		boules.initialiserBoules();
-		menuActive = false;
 		echec = false;
 		pauseActive = false;
 		if (modePlacement) {
 			continuer = false;
-			System.out.println("mode placement");
+			boules.setNbBoules(0);
 			temps.reinitialiser(true);
 			windowPanel.actualiserHorloge();
 			windowPanel.fermerFenetre();
@@ -192,7 +186,9 @@ public final class Fenetre extends JFrame {
 			pauseActive = true;
 		}
 		else {
-			pause();
+			windowPanel.fermerFenetre();
+			premiereFois = true;
+			windowPanel.afficherFenetreCommencer();
 		}
 		
 	}
@@ -200,10 +196,12 @@ public final class Fenetre extends JFrame {
 		return rayonBoules;
 	}
 	public void quitterModePlacement() {
-		System.out.println("mode quitté");
 		pauseActive = false;
 		modePlacement = false;
 		premiereFois = true;
 		windowPanel.afficherFenetreCommencer();
+	}
+	public void reset() {
+		boules.setNbBoules(0);
 	}
 }

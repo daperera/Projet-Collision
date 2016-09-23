@@ -10,5 +10,6 @@ public class MenuFichier extends JMenu{
 	public MenuFichier(Fenetre fenetre) {
 		super("Fichier");
 		add(new MenuDifficulte(fenetre));
+		add(new MenuReset(fenetre));
 	}
 }

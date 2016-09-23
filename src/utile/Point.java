@@ -42,4 +42,7 @@ public class Point {
 		Vecteur u = new Vecteur(this, p);
 		return u.norme();
 	}
+	public boolean equalsTo(Point p) {
+		return (x == p.getX() && y == p.getY());
+	}
 }

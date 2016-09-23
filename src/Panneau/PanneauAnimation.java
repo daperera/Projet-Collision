@@ -47,6 +47,30 @@ public class PanneauAnimation extends JPanel implements MouseListener, MouseMoti
 		setVisible(true);
 		setBorder(BorderFactory.createLineBorder(Color.black));
 	}
+	private void fixerVitesse() {
+		Vecteur v = fleche.getVecteur();
+		v.product((float) 0.05);
+		boules.setVitesse(v, bouleSelectionnee);
+		modeVitesse = false;
+		repaint();
+	}
+	private void ajouterBoule() {
+		bouleSelectionnee = boules.getNbBoules();
+		boules.add(curseurX,curseurY);
+		fleche.setOrigine(curseurX, curseurY);
+		modeVitesse = true;
+	}
+	private void selectionnerBoule() {
+		int temp = boules.indiceContact(new Point(curseurX, curseurY));
+		if (temp >=0) {
+			bouleSelectionnee = temp;
+			fleche.setOrigine(boules.get(temp).getPosition());
+			fleche.setExtremite(boules.get(temp).getPosition());
+			fleche.actualiser();
+			modeVitesse = true;
+			repaint();
+		}
+	}
 	public void mouseReleased(MouseEvent e) {
 		
 	}
@@ -64,20 +88,17 @@ public class PanneauAnimation extends JPanel implements MouseListener, MouseMoti
 			switch(e.getButton()) {
 				case MouseEvent.BUTTON1:
 					if(modeVitesse){
-						Vecteur v = fleche.getVecteur();
-						v.product((float) 0.05);
-						boules.setVitesse(v, bouleSelectionnee);
-						modeVitesse = false;
+						fixerVitesse();
+					}
+					else if (boules.testerContact(new Point(curseurX, curseurY))) {
+						selectionnerBoule();
 					}
 					else {
-						bouleSelectionnee = boules.getNbBoules();
-						boules.add(curseurX,curseurY);
-						fleche.setOrigine(curseurX, curseurY);
-						modeVitesse = true;
+						ajouterBoule();
 					}
 					break;
-				case MouseEvent.BUTTON2:
-					System.out.println("bouton 2");
+				case MouseEvent.BUTTON3:
+					selectionnerBoule();
 					break;
 				default:
 					
@@ -90,12 +111,11 @@ public class PanneauAnimation extends JPanel implements MouseListener, MouseMoti
 		
 	}
 	public void mouseMoved(MouseEvent e) {
-		Point curseur = new Point(e.getX(), e.getY());
-		fenetre.setCurseur(curseur);
 		curseurX = e.getX();
 		curseurY = e.getY();
+		fenetre.setCurseur(new Point(curseurX, curseurY));
 		if (modeVitesse) {
-			fleche.setExtremite(curseur);
+			fleche.setExtremite(new Point(curseurX, curseurY));
 			fleche.actualiser();
 		}
 		repaint();
@@ -120,16 +140,40 @@ public class PanneauAnimation extends JPanel implements MouseListener, MouseMoti
 		}
 	}
 	public void keyPressed(KeyEvent e) {
-		if(fenetre.isModePlacement()) {
-			switch(e.getKeyCode()) {
-			case KeyEvent.VK_ESCAPE:
-				System.out.println("echap pressée");
+		switch(e.getKeyCode()) {
+		case KeyEvent.VK_ESCAPE:
+			modeVitesse = false;
+			if (fenetre.isModePlacement()) {
 				fenetre.quitterModePlacement();
-			default:
-				
-				break;
 			}
+			else {
+				fenetre.pause();
+			}
+			break;
+		case KeyEvent.VK_DELETE:
+			boules.supprimer(bouleSelectionnee);
+			modeVitesse = false;
+			repaint();
+			break;
+		case KeyEvent.VK_F5:
+			fenetre.reset();
+			break;
+		default:
+			
+			break;
 		}
+	}
+	public int getCurseurX() {
+		return curseurX;
+	}
+	public void setCurseurX(int curseurX) {
+		this.curseurX = curseurX;
+	}
+	public int getCurseurY() {
+		return curseurY;
+	}
+	public void setCurseurY(int curseurY) {
+		this.curseurY = curseurY;
 	}
 	public void keyReleased(KeyEvent e) {
 		
