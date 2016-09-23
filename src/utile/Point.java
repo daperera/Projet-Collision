@@ -35,8 +35,14 @@ public class Point {
 		this.x += u.getX();
 		this.y += u.getY();
 	}
+	public Point addp(Vecteur u) {
+		return new Point(x + u.getX(), y + u.getY());
+	}
 	public float distance(Point p) {
 		Vecteur u = new Vecteur(this, p);
 		return u.norme();
+	}
+	public boolean equalsTo(Point p) {
+		return (x == p.getX() && y == p.getY());
 	}
 }

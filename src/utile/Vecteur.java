@@ -21,6 +21,31 @@ public class Vecteur {
 		this.x = autre.x;
 		this.y = autre.y;
 	}
+	public void rotate(float angle) {
+		float theta;
+		if(x>0 && y>=0) {
+			theta = (float) Math.atan(y/x);
+		}
+		else if (x>0 && y<0) {
+			theta = (float) Math.atan(y/x) + (float) (2*Math.PI);
+		}
+		else if (x<0 && y>=0) {
+			theta = (float) Math.atan(y/x) + (float) Math.PI;
+		}
+		else if (x<0 && y<0) {
+			theta = (float) Math.atan(y/x) + (float) Math.PI;
+		}
+		else if (x==0 && y>=0) {
+			theta = (float) (Math.PI/2);
+		}
+		else {
+			theta = (float) -Math.PI/2;
+		}
+		theta += angle;
+		float n = norme();
+		x = (float) (n*Math.cos(theta));
+		y = (float) (n*Math.sin(theta));
+	}
 	public float getX() {
 		return this.x;
 	}
@@ -54,6 +79,14 @@ public class Vecteur {
 	}
 	public float norme() {
 		return (float) Math.sqrt(this.x*this.x + this.y*this.y);
+	}
+	public void normalize() {
+		float n = norme();
+		x /= n;
+		y /= n;
+	}
+	public float prduitScalaire(Vecteur v) {
+		return x*v.getX() + y*v.getY();
 	}
 	
 }

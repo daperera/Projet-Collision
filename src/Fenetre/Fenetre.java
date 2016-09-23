@@ -1,8 +1,6 @@
 package Fenetre;
 
-
 import javax.swing.JFrame;
-
 import utile.Boules;
 import utile.Point;
 import utile.Temps;
@@ -11,7 +9,7 @@ import Panneau.WindowPanel;
 import Type.TypeDifficulte;
 
 
-public final class Fenetre extends JFrame{
+public final class Fenetre extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private final Boules boules;
 	private final WindowPanel windowPanel;
@@ -21,7 +19,8 @@ public final class Fenetre extends JFrame{
 	private boolean continuer;
 	private boolean premiereFois;
 	private final BarreDeMenu barreDeMenu;
-	private boolean menuActive = false;
+	private boolean pauseActive = false;
+	private boolean modePlacement = false;
 	private TypeDifficulte difficulte = TypeDifficulte.NORMAL;
 	public final int nbBoulesMax = 30;
 	public final int largeurEcran = 400;
@@ -31,7 +30,7 @@ public final class Fenetre extends JFrame{
 	private int nbBoules = 6;
 	private float vitesseMax = 1;
 	private float vitesseMin = 3;
-
+	
 
 
 	
@@ -53,6 +52,7 @@ public final class Fenetre extends JFrame{
 	    setContentPane(windowPanel);
 	    barreDeMenu = new BarreDeMenu(this);
 	    setJMenuBar(barreDeMenu);
+	    windowPanel.afficherFenetreCommencer();
 	    pack();
 	    animation();
 	}
@@ -90,22 +90,29 @@ public final class Fenetre extends JFrame{
 				boules.setNbBoules(4);
 				boules.setVitesseMin((float) 1);
 				boules.setVitesseMax((float) 3);
-				System.out.println("facile");
 				break;
 			case NORMAL:
 				boules.setNbBoules(6);
 				boules.setVitesseMin(1);
 				boules.setVitesseMax(3);
-				System.out.println("facile");
 				break;
 			case DIFFICILE:
 				boules.setNbBoules(8);
 				boules.setVitesseMin(2);
 				boules.setVitesseMax(3);
-				System.out.println("facile");
+				break;
+			case PERSONNALISEE: // mode de placement des boules
+				modePlacement = true;
+				break;
+			default:
 				break;
 		}
-		
+	}
+	public boolean isModePlacement() {
+		return modePlacement;
+	}
+	public void setModePlacement(boolean modePlacement) {
+		this.modePlacement = modePlacement;
 	}
 	public void animation() {
 		while(true) {
@@ -115,7 +122,9 @@ public final class Fenetre extends JFrame{
 				windowPanel.repaint();
 				if(boules.testerContact(curseur)) {
 					echec = true;
-					boules.initialiserBoules();
+					if (difficulte != TypeDifficulte.PERSONNALISEE) {
+						boules.initialiserBoules();
+					}
 					pause();
 				}
 			}
@@ -128,28 +137,31 @@ public final class Fenetre extends JFrame{
 		}
 	}
 	public void pause() {
-		if (!premiereFois && menuActive == false) {
+		if (!premiereFois && !pauseActive) {
 			temps.pause();
 			continuer = false;
-			menuActive = true;
 			if (echec) {
 				windowPanel.afficherFenetreEchec();
+				echec = false;
 			}
 			else {
 				windowPanel.afficherFenetrePause();
 			}
+			pauseActive = true;
 		}
 	}
 	public void resume() {
+		if(!modePlacement) {
+			temps.resume();
+			continuer = true;
+		}
 		if (premiereFois) {
 			premiereFois = false;
 		}
-		menuActive = false;
-		continuer = true;
 		windowPanel.fermerFenetre();
-		temps.resume();
+		pauseActive = false;
 	}
-	public boolean isEchec() {
+	public boolean isEchec() { //methode inutilisee
 		return echec;
 	}
 	public void reinitialiser() {
@@ -158,12 +170,38 @@ public final class Fenetre extends JFrame{
 	}
 	public void ouvrirFenetreDifficulte() {
 		windowPanel.afficherFenetreDifficulte();
-		menuActive = true;
 	}
 	public void fermerFenetreDifficulte() {
 		windowPanel.fermerFenetreDifficulte();
 		boules.initialiserBoules();
-		menuActive = false;
-		pause();
+		echec = false;
+		pauseActive = false;
+		if (modePlacement) {
+			continuer = false;
+			boules.setNbBoules(0);
+			temps.reinitialiser(true);
+			windowPanel.actualiserHorloge();
+			windowPanel.fermerFenetre();
+			windowPanel.focusPanneauAnimation();
+			pauseActive = true;
+		}
+		else {
+			windowPanel.fermerFenetre();
+			premiereFois = true;
+			windowPanel.afficherFenetreCommencer();
+		}
+		
+	}
+	public int getRayonBoules() {
+		return rayonBoules;
+	}
+	public void quitterModePlacement() {
+		pauseActive = false;
+		modePlacement = false;
+		premiereFois = true;
+		windowPanel.afficherFenetreCommencer();
+	}
+	public void reset() {
+		boules.setNbBoules(0);
 	}
 }

@@ -39,8 +39,10 @@ public class PanneauHorloge extends JPanel {
 	public void colorier() {
 		chrono.setForeground(Color.red);	
 	}
-public void normal() {
-	chrono.setForeground(Color.black);
+	public void normal() {
+		chrono.setForeground(Color.black);
 	}
-	
+	public void actualiser() {
+		chrono.setText(fenetre.getTemps().toString());
+	}
 }

@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class WindowPanel extends JLayeredPane {
 	private static final long serialVersionUID = 1L;
-	//private final PanneauAnimation panneauAnimation;
+	private final PanneauAnimation panneauAnimation;
 	private final PanneauHorloge panneauHorloge;
 	private final FenetrePopup fenetreCommencer;
 	private final FenetrePopup fenetrePause;
@@ -22,12 +22,15 @@ public class WindowPanel extends JLayeredPane {
 		setVisible(true);
 		setPreferredSize(new Dimension((int) fenetre.getSize().getWidth(), (int) fenetre.getSize().getHeight()));	
 		add(panneauHorloge = new PanneauHorloge(fenetre), new Integer(1), 0);
-		add(/*panneauAnimation =*/ new PanneauAnimation(fenetre), new Integer(1), 0);
-		add(fenetreCommencer = new FenetrePopup(fenetre, TypeBouton.COMMENCER), new Integer(2), 0);
+		add(panneauAnimation = new PanneauAnimation(fenetre), new Integer(1), 0);
+		add(fenetreCommencer = new FenetrePopup(fenetre, TypeBouton.COMMENCER), new Integer(0), 0);
 		add(fenetrePause = new FenetrePopup(fenetre, TypeBouton.REPRENDRE), new Integer(0), 0);
 		add(fenetreEchec = new FenetrePopup(fenetre, TypeBouton.RECOMMENCER), new Integer(0), 0);
 		add(fenetreDifficulte = new FenetreDifficulte(fenetre), new Integer(0), 0);
-		
+	}
+	public void afficherFenetreCommencer() {
+		fenetreCommencer.setVisible(true);
+		setLayer(fenetreCommencer, new Integer(2), 0);
 	}
 	public void afficherFenetrePause() {
 		fenetrePause.setVisible(true);
@@ -64,5 +67,11 @@ public class WindowPanel extends JLayeredPane {
 	}
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+	}
+	public void focusPanneauAnimation() {
+		panneauAnimation.requestFocus();
+	}
+	public void actualiserHorloge() {
+		panneauHorloge.actualiser();
 	}
 }

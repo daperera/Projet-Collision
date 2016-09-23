@@ -32,7 +32,7 @@ public class BoutonGenerique extends JButton implements ActionListener{
 				setPreferredSize(new Dimension(105, 50));
 				break;
 			case RECOMMENCER:
-				setPreferredSize(new Dimension(130, 75));
+				setPreferredSize(new Dimension(150, 75));
 				setLayout(new GridBagLayout());
 				GridBagConstraints c = new GridBagConstraints();
 				c.anchor = GridBagConstraints.CENTER;
@@ -41,9 +41,7 @@ public class BoutonGenerique extends JButton implements ActionListener{
 				add(new JLabel("Perdu !"), c);
 				c.weighty = 1.0;
 				c.gridy = 1;
-				label2 = new JLabel("Score : " + fenetre.getTemps());
-				add(label2, c);
-				remove(label2);
+				add(label2 = new JLabel("Score : 0:0:0"), c);
 				c.weighty = 1.0;
 				c.gridy = 2;
 				add(new JLabel("Recommencer ?"), c);
@@ -72,24 +70,24 @@ public class BoutonGenerique extends JButton implements ActionListener{
 			break;
 		}
 	}
+	
 	public void actualiser() {
 		switch(type) {
-			case RECOMMENCER:
-				GridBagConstraints c = new GridBagConstraints();
-				c.anchor = GridBagConstraints.CENTER;
-				c.weighty = 1.0;
-				c.gridy = 1;
-				remove(label2);
-				label2 = new JLabel("Score : " + fenetre.getTemps());
-				add(label2, c);
-				
-				
-				
-				//setText("Score : " + fenetre.getTemps());
-				break;
-			default:
-				break;
-		
+		case RECOMMENCER:
+			GridBagConstraints c = new GridBagConstraints();
+			c.anchor = GridBagConstraints.CENTER;
+			c.weighty = 1.0;
+			c.gridy = 1;
+			remove(label2);
+			label2 = new JLabel("Score : " + fenetre.getTemps());
+			add(label2, c);
+			revalidate();
+			repaint();
+			break;
+		default:
+			break;
+	
 		}
 	}
+
 }

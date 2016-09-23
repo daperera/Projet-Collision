@@ -17,7 +17,6 @@ public class PanneauBoutonOk extends JPanel{
 		super();
 		setVisible(true);
 		setPreferredSize(new Dimension(fenetreDifficulte.getLargeur()/3, fenetreDifficulte.getHauteur()/3));
-		//setBackground(new Color(206,206,255));
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		add(new BoutonGenerique(fenetre, TypeBouton.OK), c);

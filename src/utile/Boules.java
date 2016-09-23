@@ -111,6 +111,15 @@ public class Boules {
 		}
 		return contact;
 	}
+	public int indiceContact(Point curseur) {
+		int indice = -1;
+		for (int i=0; i<nbBoules; i++) {
+			if (curseur.distance(boules[i].getPosition()) < boules[i].getRayon()) {
+				indice = i;
+			}
+		}
+		return indice;
+	}
 	public int getNbBoules() {
 		return nbBoules;
 	}
@@ -132,6 +141,19 @@ public class Boules {
 
 	public void setVitesseMin(float vitesseMin) {
 		this.vitesseMin = vitesseMin;
+	}
+	public void add(int x, int y) {
+		nbBoules++;
+		boules[nbBoules-1] = new Boule(x, y, 0, 0, rayon);
+	}
+	public void setVitesse(Vecteur v, int indice) {
+		boules[indice].setVitesse(v);
+	}
+	public void supprimer(int indice) {
+		for (int k=indice; k<nbBoules-1; k++) {
+			boules[k] = boules[k+1].copy();
+		}
+		nbBoules--;
 	}
 	/*
 	static Bord[] testerCollisionAvecBord(Boule boule) {
