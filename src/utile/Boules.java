@@ -4,13 +4,13 @@ import java.awt.*;
 import Fenetre.Fenetre;
 
 public class Boules {
-	public Boule[] boules;
-	public int nbBoules;
-	public int rayon;
-	public int largeurEcran;
-	public int hauteurEcran;
-	public float vitesseMax;
-	public float vitesseMin;
+	private Boule[] boules;
+	private int nbBoules;
+	private int rayon;
+	private int largeurEcran;
+	private int hauteurEcran;
+	private float vitesseMax;
+	private float vitesseMin;
 	
 	public Boules(int nbBoules, int nbBoulesMax, int rayonBoules, float vitesseMin, float vitesseMax, Fenetre fenetre) {
 		boules = new Boule[nbBoulesMax];

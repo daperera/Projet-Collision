@@ -22,7 +22,7 @@ public final class Fenetre extends JFrame {
 	private boolean pauseActive = false;
 	private boolean modePlacement = false;
 	private TypeDifficulte difficulte = TypeDifficulte.NORMAL;
-	public final int nbBoulesMax = 30;
+	public final int nbBoulesMax = 50;
 	public final int largeurEcran = 400;
 	public final int hauteurEcran = 600;
 	public final int hauteurHorloge = 30;
